@@ -8,5 +8,6 @@ public class CreateUserResponseLombokModel {
             job,
             id,
             token,
+            error,
             createdAt;
 }

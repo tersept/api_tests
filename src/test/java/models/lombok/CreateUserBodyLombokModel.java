@@ -10,6 +10,7 @@ public class CreateUserBodyLombokModel {
             email,
             id,
             token,
+            error,
             password;
 
 }

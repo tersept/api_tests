@@ -8,18 +8,17 @@ import org.junit.jupiter.api.TestInstance;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
-import static specs.UserCreatSpecs.creatUserRequestSpec;
-import static specs.UserCreatSpecs.creatUserResponseSpec;
+import static specs.UserCreateSpecs.*;
 import static specs.UserListSpecs.userListRequestSpec;
 import static specs.UserListSpecs.userListResponseSpec;
-import static specs.UserRegistrationSpecs.registrationUserRequestSpec;
-import static specs.UserRegistrationSpecs.registrationUserResponseSpec;
+import static specs.UserLoginSpecs.*;
+import static specs.UserRegistrationSpecs.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 
 public class ReqresInTests {
 
-    @DisplayName("Тест на успешное создание пользователя lombok модель")
+    @DisplayName("Тест на успешное создание пользователя")
     @Test
     void userCreationSuccessTest() {
 
@@ -28,12 +27,12 @@ public class ReqresInTests {
         body.setJob("leader");
 
         CreateUserBodyLombokModel response = given()
-                .spec(creatUserRequestSpec)
+                .spec(createUserRequestSpec)
                 .body(body)
                 .when()
                 .post()
                 .then()
-                .spec(creatUserResponseSpec)
+                .spec(createUserResponseSpec)
                 .body(
                         "id", is(not(emptyOrNullString())),
                         "createdAt", notNullValue()
@@ -44,7 +43,7 @@ public class ReqresInTests {
         assertThat(response.getJob()).isEqualTo("leader");
     }
 
-    @DisplayName("Тест на успешную регистрацию lombok модель")
+    @DisplayName("Тест на успешную регистрацию")
     @Test
     void userRegistrationLombokSuccessTest() {
         CreateUserBodyLombokModel body = new CreateUserBodyLombokModel();
@@ -63,7 +62,57 @@ public class ReqresInTests {
         assertThat(response.getId()).isEqualTo("4");
         assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
     }
+    @DisplayName("Тест на безуспешную регистрацию")
+    @Test
+    void userRegistrationUnSuccessTest() {
+        CreateUserBodyLombokModel body = new CreateUserBodyLombokModel();
+        body.setEmail("eve.holt@reqres");
 
+        CreateUserBodyLombokModel response = given()
+                .spec(registrationUserRequestSpec)
+                .body(body)
+                .when()
+                .post()
+                .then()
+                .spec(registrationUser400ResponseSpec)
+                .extract()
+                .as(CreateUserBodyLombokModel.class);
+        assertThat(response.getError()).isEqualTo("Missing password");
+    }
+    @DisplayName("Тест на успешную авторизацию")
+    @Test
+    void userLoginSuccessTest() {
+        CreateUserBodyLombokModel body = new CreateUserBodyLombokModel();
+        body.setEmail("eve.holt@reqres.in");
+        body.setPassword("cityslick");
+
+        CreateUserBodyLombokModel response = given()
+                .spec(loginUserRequestSpec)
+                .body(body)
+                .when()
+                .post()
+                .then()
+                .spec(loginUserResponseSpec)
+                .extract()
+                .as(CreateUserBodyLombokModel.class);
+        assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
+    }@DisplayName("Тест на безуспешную авторизацию")
+    @Test
+    void userLoginUnSuccessTest() {
+        CreateUserBodyLombokModel body = new CreateUserBodyLombokModel();
+        body.setEmail("eve.holt@reqres");
+
+        CreateUserBodyLombokModel response = given()
+                .spec(loginUserRequestSpec)
+                .body(body)
+                .when()
+                .post()
+                .then()
+                .spec(loginUser400ResponseSpec)
+                .extract()
+                .as(CreateUserBodyLombokModel.class);
+        assertThat(response.getError()).isEqualTo("Missing password");
+    }
     @DisplayName("Тест на присутствие george.bluth@reqres.in в выдаче списка пользователей")
     @Test
     void userListEmailTest() {

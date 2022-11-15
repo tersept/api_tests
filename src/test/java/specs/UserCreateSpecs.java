@@ -7,28 +7,21 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
 import static io.restassured.RestAssured.with;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 
-public class UserRegistrationSpecs {
-    public static RequestSpecification registrationUserRequestSpec = with()
+public class UserCreateSpecs {
+    public static RequestSpecification createUserRequestSpec = with()
             .baseUri("https://reqres.in/api")
-            .basePath("/register")
+            .basePath("/users")
             .log().all()
             .contentType(ContentType.JSON);
-
-    public static ResponseSpecification registrationUserResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(200)
+    public static ResponseSpecification createUserResponseSpec = new ResponseSpecBuilder()
+            .expectStatusCode(201)
             .log(LogDetail.STATUS)
             .log(LogDetail.BODY)
-            .expectBody("id", notNullValue())
-            .expectBody("token", notNullValue())
             .build();
-
-    public static ResponseSpecification registrationUser400ResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification createUser400ResponseSpec = new ResponseSpecBuilder()
             .expectStatusCode(400)
             .log(LogDetail.STATUS)
             .log(LogDetail.BODY)
-            .expectBody("error", is("Missing password"))
             .build();
 }
