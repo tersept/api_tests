@@ -3,9 +3,10 @@ package models.lombok;
 import lombok.Data;
 @Data
 
-public class CreatUserResponseLombokModel {
+public class CreateUserResponseLombokModel {
     private String name,
             job,
             id,
+            token,
             createdAt;
 }

@@ -8,6 +8,8 @@ public class CreateUserBodyLombokModel {
     private String name,
             job,
             email,
+            id,
+            token,
             password;
 
 }

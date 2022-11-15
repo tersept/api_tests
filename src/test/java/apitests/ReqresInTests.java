@@ -1,25 +1,23 @@
 package apitests;
 
 import models.lombok.CreateUserBodyLombokModel;
-import models.pojo.CreatUserResponsePojoModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.doesNotHave;
 import static org.hamcrest.Matchers.*;
 import static specs.UserCreatSpecs.creatUserRequestSpec;
 import static specs.UserCreatSpecs.creatUserResponseSpec;
 import static specs.UserListSpecs.userListRequestSpec;
 import static specs.UserListSpecs.userListResponseSpec;
-import static specs.UserRegistrationSpecs.*;
+import static specs.UserRegistrationSpecs.registrationUserRequestSpec;
+import static specs.UserRegistrationSpecs.registrationUserResponseSpec;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 
 public class ReqresInTests {
-    UserEmailData email = new UserEmailData("eve.holt@reqres.in", "pistol");
 
     @DisplayName("Тест на успешное создание пользователя lombok модель")
     @Test
@@ -48,12 +46,12 @@ public class ReqresInTests {
 
     @DisplayName("Тест на успешную регистрацию lombok модель")
     @Test
-    void userRegistrationPojoSuccessTest() {
+    void userRegistrationLombokSuccessTest() {
         CreateUserBodyLombokModel body = new CreateUserBodyLombokModel();
         body.setEmail("eve.holt@reqres.in");
         body.setPassword("pistol");
 
-        CreatUserResponsePojoModel response = given()
+        CreateUserBodyLombokModel response = given()
                 .spec(registrationUserRequestSpec)
                 .body(body)
                 .when()
@@ -61,7 +59,7 @@ public class ReqresInTests {
                 .then()
                 .spec(registrationUserResponseSpec)
                 .extract()
-                .as(CreatUserResponsePojoModel.class);
+                .as(CreateUserBodyLombokModel.class);
         assertThat(response.getId()).isEqualTo("4");
         assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
     }
@@ -78,7 +76,8 @@ public class ReqresInTests {
                 .body("data.findAll{it.email =~/.*?@reqres.in/}.email.flatten()",
                         hasItem("george.bluth@reqres.in"));
     }
-    @DisplayName("Тест на присутствие george.bluth@reqres.in в выдаче списка пользователей")
+
+    @DisplayName("Тест на проверку количества элементов на выдаче")
     @Test
     void userListIDTest() {
         given()
@@ -88,7 +87,7 @@ public class ReqresInTests {
                 .then()
                 .spec(userListResponseSpec)
                 .body("data.findAll{it.id}.id.flatten()",
-                      hasItem(6));
+                        hasItem(6));
     }
 }
 
