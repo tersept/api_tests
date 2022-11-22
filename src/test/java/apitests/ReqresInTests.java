@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import static helpers.CustomApiListener.withCustomTemplates;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -27,6 +28,7 @@ public class ReqresInTests {
         body.setJob("leader");
 
         CreateUserBodyLombokModel response = given()
+                .filter(withCustomTemplates())
                 .spec(createUserRequestSpec)
                 .body(body)
                 .when()
@@ -51,6 +53,7 @@ public class ReqresInTests {
         body.setPassword("pistol");
 
         CreateUserBodyLombokModel response = given()
+                .filter(withCustomTemplates())
                 .spec(registrationUserRequestSpec)
                 .body(body)
                 .when()
@@ -69,6 +72,7 @@ public class ReqresInTests {
         body.setEmail("eve.holt@reqres");
 
         CreateUserBodyLombokModel response = given()
+                .filter(withCustomTemplates())
                 .spec(registrationUserRequestSpec)
                 .body(body)
                 .when()
@@ -87,6 +91,7 @@ public class ReqresInTests {
         body.setPassword("cityslick");
 
         CreateUserBodyLombokModel response = given()
+                .filter(withCustomTemplates())
                 .spec(loginUserRequestSpec)
                 .body(body)
                 .when()
@@ -103,6 +108,7 @@ public class ReqresInTests {
         body.setEmail("eve.holt@reqres");
 
         CreateUserBodyLombokModel response = given()
+                .filter(withCustomTemplates())
                 .spec(loginUserRequestSpec)
                 .body(body)
                 .when()
@@ -117,6 +123,7 @@ public class ReqresInTests {
     @Test
     void userListEmailTest() {
         given()
+                .filter(withCustomTemplates())
                 .spec(userListRequestSpec)
                 .when()
                 .get()
@@ -130,6 +137,7 @@ public class ReqresInTests {
     @Test
     void userListIDTest() {
         given()
+                .filter(withCustomTemplates())
                 .spec(userListRequestSpec)
                 .when()
                 .get()
