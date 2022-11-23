@@ -39,25 +39,25 @@
 
 ✓ Тест на проверку количества элементов на выдаче
 
-## Параметры сборки в Jenkins:()
+## Сборка в <a  target="_blank" href ="https://jenkins.autotests.cloud/job/apiTests-diplom/">Jenkins:</a>
 
+![](images/jenkins.jpg)
 
-
-## <img src="images/Allure_Report.svg" width="25" height="25"  alt="Allure"/></a> Отчет в <a target="_blank" href="https://jenkins.autotests.cloud/job/X5Group-e2e-tests/16/allure/">Allure report</a>
+## <img src="images/Allure_Report.svg" width="25" height="25"  alt="Allure"/> Отчет в <a target="_blank" href="https://jenkins.autotests.cloud/job/apiTests-diplom/allure/">Allure report</a>
 
 ### Главное окно
 
-![]()
+![](images/allureMain.jpg)
 
 ### Окно с тестовыми кейсами
 
-![]()
+![](images/allureTest.jpg)
 
 ### Окно с графиками
 
-![]()
+![](images/allureGraphics.jpg)
 
-## <img src="images/Telegram.svg" width="25" height="25"  alt="Allure"/></a> Уведомление в Telegram при помощи бота
+## <img src="images/Telegram.svg" width="25" height="25"  alt="Allure"/> Уведомление в Telegram при помощи бота
 
 После завершения тестов отчет о прохождении приходит в Telegram с помощью заранее созданного бота
 
