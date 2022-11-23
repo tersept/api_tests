@@ -6,7 +6,6 @@
 * [Реализованные проверки](#scroll-реализованные-проверки)
 * [Сборка в Jenkins](#-jenkins-job)
 * [Allure отчет](#earth_africa-Allure-отчет)
-* [Отчет в Telegram](#-уведомление-в-telegram-при-помощи-бота)
 
 ## :rocket: Технологии и инструменты
 
@@ -56,9 +55,3 @@
 ### Окно с графиками
 
 ![](images/allureGraphics.jpg)
-
-## <img src="images/Telegram.svg" width="25" height="25"  alt="Allure"/> Уведомление в Telegram при помощи бота
-
-После завершения тестов отчет о прохождении приходит в Telegram с помощью заранее созданного бота
-
-![]()
