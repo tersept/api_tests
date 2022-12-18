@@ -1,4 +1,4 @@
-package apitests;
+package tests;
 
 import models.lombok.CreateUserBodyLombokModel;
 import org.junit.jupiter.api.DisplayName;
@@ -35,6 +35,7 @@ public class ReqresInTests {
                 .post()
                 .then()
                 .spec(createUserResponseSpec)
+                .statusCode(201)
                 .body(
                         "id", is(not(emptyOrNullString())),
                         "createdAt", notNullValue()
@@ -60,6 +61,9 @@ public class ReqresInTests {
                 .post()
                 .then()
                 .spec(registrationUserResponseSpec)
+                .statusCode(200)
+                .body("id", is(not(emptyOrNullString())))
+                .body("token", is(not(emptyOrNullString())))
                 .extract()
                 .as(CreateUserBodyLombokModel.class);
         assertThat(response.getId()).isEqualTo("4");
@@ -78,7 +82,8 @@ public class ReqresInTests {
                 .when()
                 .post()
                 .then()
-                .spec(registrationUser400ResponseSpec)
+                .spec(registrationUserResponseSpec)
+                .statusCode(400)
                 .extract()
                 .as(CreateUserBodyLombokModel.class);
         assertThat(response.getError()).isEqualTo("Missing password");
@@ -98,6 +103,8 @@ public class ReqresInTests {
                 .post()
                 .then()
                 .spec(loginUserResponseSpec)
+                .statusCode(200)
+                .body("token", is(not(emptyOrNullString())))
                 .extract()
                 .as(CreateUserBodyLombokModel.class);
         assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
@@ -114,7 +121,8 @@ public class ReqresInTests {
                 .when()
                 .post()
                 .then()
-                .spec(loginUser400ResponseSpec)
+                .spec(loginUserResponseSpec)
+                .statusCode(400)
                 .extract()
                 .as(CreateUserBodyLombokModel.class);
         assertThat(response.getError()).isEqualTo("Missing password");
@@ -129,6 +137,7 @@ public class ReqresInTests {
                 .get()
                 .then()
                 .spec(userListResponseSpec)
+                .statusCode(200)
                 .body("data.findAll{it.email =~/.*?@reqres.in/}.email.flatten()",
                         hasItem("george.bluth@reqres.in"));
     }
@@ -143,6 +152,7 @@ public class ReqresInTests {
                 .get()
                 .then()
                 .spec(userListResponseSpec)
+                .statusCode(200)
                 .body("data.findAll{it.id}.id.flatten()",
                         hasItem(6));
     }

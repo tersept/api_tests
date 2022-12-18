@@ -16,14 +16,7 @@ public class UserLoginSpecs {
             .log().all()
             .contentType(ContentType.JSON);
     public static ResponseSpecification loginUserResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(200)
             .log(LogDetail.STATUS)
             .log(LogDetail.BODY)
-            .build();
-    public static ResponseSpecification loginUser400ResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(400)
-            .log(LogDetail.STATUS)
-            .log(LogDetail.BODY)
-            .expectBody("error", is("Missing password"))
             .build();
 }

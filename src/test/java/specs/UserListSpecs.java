@@ -15,7 +15,6 @@ public class UserListSpecs {
             .log().all()
             .contentType(ContentType.JSON);
     public static ResponseSpecification userListResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(200)
             .log(LogDetail.STATUS)
             .log(LogDetail.BODY)
             .build();

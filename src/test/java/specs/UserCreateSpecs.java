@@ -15,12 +15,6 @@ public class UserCreateSpecs {
             .log().all()
             .contentType(ContentType.JSON);
     public static ResponseSpecification createUserResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(201)
-            .log(LogDetail.STATUS)
-            .log(LogDetail.BODY)
-            .build();
-    public static ResponseSpecification createUser400ResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(400)
             .log(LogDetail.STATUS)
             .log(LogDetail.BODY)
             .build();

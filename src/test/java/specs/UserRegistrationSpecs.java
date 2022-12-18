@@ -18,17 +18,8 @@ public class UserRegistrationSpecs {
             .contentType(ContentType.JSON);
 
     public static ResponseSpecification registrationUserResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(200)
             .log(LogDetail.STATUS)
             .log(LogDetail.BODY)
-            .expectBody("id", notNullValue())
-            .expectBody("token", notNullValue())
             .build();
 
-    public static ResponseSpecification registrationUser400ResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(400)
-            .log(LogDetail.STATUS)
-            .log(LogDetail.BODY)
-            .expectBody("error", is("Missing password"))
-            .build();
 }
