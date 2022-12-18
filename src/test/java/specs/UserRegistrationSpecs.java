@@ -13,7 +13,6 @@ import static org.hamcrest.Matchers.notNullValue;
 public class UserRegistrationSpecs {
     public static RequestSpecification registrationUserRequestSpec = with()
             .baseUri("https://reqres.in/api")
-            .basePath("/register")
             .log().all()
             .contentType(ContentType.JSON);
 

@@ -12,7 +12,6 @@ import static org.hamcrest.Matchers.is;
 public class UserLoginSpecs {
     public static RequestSpecification loginUserRequestSpec = with()
             .baseUri("https://reqres.in/api")
-            .basePath("/login")
             .log().all()
             .contentType(ContentType.JSON);
     public static ResponseSpecification loginUserResponseSpec = new ResponseSpecBuilder()

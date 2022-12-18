@@ -1,9 +1,11 @@
 package tests;
 
+import lombok.Builder;
 import models.lombok.CreateUserBodyLombokModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import specs.UserCreateSpecs;
 
 import static helpers.CustomApiListener.withCustomTemplates;
 import static io.restassured.RestAssured.given;
@@ -21,18 +23,18 @@ public class ReqresInTests {
 
     @DisplayName("Тест на успешное создание пользователя")
     @Test
+    @Builder
     void userCreationSuccessTest() {
 
-        CreateUserBodyLombokModel body = new CreateUserBodyLombokModel();
-        body.setName("morpheus");
-        body.setJob("leader");
+        CreateUserBodyLombokModel body = CreateUserBodyLombokModel.builder()
+                .name("morpheus")
+                .job("leader")
+                .build();
 
-        CreateUserBodyLombokModel response = given()
-                .filter(withCustomTemplates())
-                .spec(createUserRequestSpec)
+        CreateUserBodyLombokModel response = given().spec(createUserRequestSpec)
                 .body(body)
                 .when()
-                .post()
+                .post("/users")
                 .then()
                 .spec(createUserResponseSpec)
                 .statusCode(201)
@@ -49,16 +51,15 @@ public class ReqresInTests {
     @DisplayName("Тест на успешную регистрацию")
     @Test
     void userRegistrationLombokSuccessTest() {
-        CreateUserBodyLombokModel body = new CreateUserBodyLombokModel();
-        body.setEmail("eve.holt@reqres.in");
-        body.setPassword("pistol");
+        CreateUserBodyLombokModel body = CreateUserBodyLombokModel.builder()
+                .email("eve.holt@reqres.in")
+                .password("pistol")
+                .build();
 
-        CreateUserBodyLombokModel response = given()
-                .filter(withCustomTemplates())
-                .spec(registrationUserRequestSpec)
+        CreateUserBodyLombokModel response = given().spec(registrationUserRequestSpec)
                 .body(body)
                 .when()
-                .post()
+                .post("/register")
                 .then()
                 .spec(registrationUserResponseSpec)
                 .statusCode(200)
@@ -69,18 +70,18 @@ public class ReqresInTests {
         assertThat(response.getId()).isEqualTo("4");
         assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
     }
+
     @DisplayName("Тест на безуспешную регистрацию")
     @Test
     void userRegistrationUnSuccessTest() {
-        CreateUserBodyLombokModel body = new CreateUserBodyLombokModel();
-        body.setEmail("eve.holt@reqres");
+        CreateUserBodyLombokModel body = CreateUserBodyLombokModel.builder()
+                .email("eve.holt@reqres")
+                .build();
 
-        CreateUserBodyLombokModel response = given()
-                .filter(withCustomTemplates())
-                .spec(registrationUserRequestSpec)
+        CreateUserBodyLombokModel response = given().spec(registrationUserRequestSpec)
                 .body(body)
                 .when()
-                .post()
+                .post("/register")
                 .then()
                 .spec(registrationUserResponseSpec)
                 .statusCode(400)
@@ -88,19 +89,19 @@ public class ReqresInTests {
                 .as(CreateUserBodyLombokModel.class);
         assertThat(response.getError()).isEqualTo("Missing password");
     }
+
     @DisplayName("Тест на успешную авторизацию")
     @Test
     void userLoginSuccessTest() {
-        CreateUserBodyLombokModel body = new CreateUserBodyLombokModel();
-        body.setEmail("eve.holt@reqres.in");
-        body.setPassword("cityslick");
+        CreateUserBodyLombokModel body = CreateUserBodyLombokModel.builder()
+                .email("eve.holt@reqres.in")
+                .password("cityslick")
+                .build();
 
-        CreateUserBodyLombokModel response = given()
-                .filter(withCustomTemplates())
-                .spec(loginUserRequestSpec)
+        CreateUserBodyLombokModel response = given().spec(loginUserRequestSpec)
                 .body(body)
                 .when()
-                .post()
+                .post("/login")
                 .then()
                 .spec(loginUserResponseSpec)
                 .statusCode(200)
@@ -108,18 +109,19 @@ public class ReqresInTests {
                 .extract()
                 .as(CreateUserBodyLombokModel.class);
         assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
-    }@DisplayName("Тест на безуспешную авторизацию")
+    }
+
+    @DisplayName("Тест на безуспешную авторизацию")
     @Test
     void userLoginUnSuccessTest() {
-        CreateUserBodyLombokModel body = new CreateUserBodyLombokModel();
-        body.setEmail("eve.holt@reqres");
+        CreateUserBodyLombokModel body = CreateUserBodyLombokModel.builder()
+                .email("eve.holt@reqres")
+                .build();
 
-        CreateUserBodyLombokModel response = given()
-                .filter(withCustomTemplates())
-                .spec(loginUserRequestSpec)
+        CreateUserBodyLombokModel response = given().spec(loginUserRequestSpec)
                 .body(body)
                 .when()
-                .post()
+                .post("/login")
                 .then()
                 .spec(loginUserResponseSpec)
                 .statusCode(400)
@@ -127,6 +129,7 @@ public class ReqresInTests {
                 .as(CreateUserBodyLombokModel.class);
         assertThat(response.getError()).isEqualTo("Missing password");
     }
+
     @DisplayName("Тест на присутствие george.bluth@reqres.in в выдаче списка пользователей")
     @Test
     void userListEmailTest() {
