@@ -67,8 +67,8 @@ public class ReqresInTests {
                 .body("token", is(not(emptyOrNullString())))
                 .extract()
                 .as(CreateUserBodyLombokModel.class);
-        assertThat(response.getId()).isEqualTo("4");
-        assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
+        assertThat(response.getId()).isNotEmpty().isNotNull();
+        assertThat(response.getToken()).isNotNull();
     }
 
     @DisplayName("Тест на безуспешную регистрацию")
@@ -108,7 +108,7 @@ public class ReqresInTests {
                 .body("token", is(not(emptyOrNullString())))
                 .extract()
                 .as(CreateUserBodyLombokModel.class);
-        assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
+        assertThat(response.getToken()).isNotNull();
     }
 
     @DisplayName("Тест на безуспешную авторизацию")
